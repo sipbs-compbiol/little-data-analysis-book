@@ -4,62 +4,115 @@
     "href": "index.html",
     "title": "A Little Book of Data Analysis",
     "section": "",
-    "text": "Preface to A Little Book of Bioinformatics\nWelcome to A Little Book of Bioinformatics. This is an online book, under continual development, which I am building as and when topics come to mind or prominence.\nMy goal is that this online book will come to be a fairly transparent and honest reference for students in bioinformatics, and maybe for some researchers, too.\nI would be very grateful for feedback by email or through the GitHub repository Issues page"
+    "text": "Preface to A Little Book of Bioinformatics\nWelcome to A Little Book of Bioinformatics. This is an online book, under continual development, which I am building as and when topics come to mind or prominence.\nMy goal is that this online book will come to be a fairly transparent and honest reference for students in bioinformatics, and maybe for some researchers, too.\nI would be very grateful for feedback by email or through the GitHub repository Issues page",
+    "crumbs": [
+      "Preface to _A Little Book of Bioinformatics_"
+    ]
   },
   {
     "objectID": "intro.html",
     "href": "intro.html",
     "title": "1  Introduction",
     "section": "",
-    "text": "The Introduction page is intended as a short introduction to the book.\nLike most Quarto books, this is a book created from markdown and executable code.\nThis kind of book is an example of literate programming - the intertwining of nicely-formatted text and images, and executable code. For example, the R code cell below executes and produces output when the book is compiled:\n\n1 + 1\n\n[1] 2\n\n\nBut the R code cell below does not:\n\nsummary(cars)\n\nSee Knuth (1984) for additional discussion of literate programming.\n\n\n\n\nKnuth, Donald E. 1984. “Literate Programming.” Comput. J. 27 (2): 97–111. https://doi.org/10.1093/comjnl/27.2.97."
+    "text": "The Introduction page is intended as a short introduction to the book.\nLike most Quarto books, this is a book created from markdown and executable code.\nThis kind of book is an example of literate programming - the intertwining of nicely-formatted text and images, and executable code. For example, the R code cell below executes and produces output when the book is compiled:\n\n1 + 1\n\n[1] 2\n\n\nBut the R code cell below does not:\n\nsummary(cars)\n\nSee Knuth (1984) for additional discussion of literate programming.\n\n\n\n\nKnuth, Donald E. 1984. “Literate Programming.” Comput. J. 27 (2): 97–111. https://doi.org/10.1093/comjnl/27.2.97.",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Introduction</span>"
+    ]
   },
   {
     "objectID": "early-section.html",
     "href": "early-section.html",
     "title": "Early Section",
     "section": "",
-    "text": "This .qmd file introduces a Part of the Quarto book. We use the {#sec-REFERENCE} option to make it cross-referenceable elsewhere in the text, and the {.unnumbered} option to avoid giving it a section number."
+    "text": "This .qmd file introduces a Part of the Quarto book. We use the {#sec-REFERENCE} option to make it cross-referenceable elsewhere in the text, and the {.unnumbered} option to avoid giving it a section number.",
+    "crumbs": [
+      "Early Section"
+    ]
   },
   {
-    "objectID": "early-section-topic.html",
-    "href": "early-section-topic.html",
-    "title": "2  Early Section Topic",
+    "objectID": "causal-linear-regression.html",
+    "href": "causal-linear-regression.html",
+    "title": "Linear Regression",
     "section": "",
-    "text": "This .qmd file represents some topic-related text. We use the {#sec-REFERENCE} option to make it cross-referenceable elsewhere in the text."
+    "text": "The Scientific Question\nWe can see a relationship between size and weight for penguins in the palmerpenguins dataset by plotting their body mass (in g) against flipper length (in mm). Here, we are using flipper length as a representative measure for overall penguin size.\nggplot(penguins, aes(x=flipper_length_mm, y=body_mass_g)) +\n  geom_point(shape=21, colour=\"darkolivegreen3\", stroke=2) +\n  xlab(\"flipper length (mm)\") + ylab(\"body mass(g)\") +\n  theme_bw()\n\n\n\n\n\n\n\nFigure 1: A plot of penguin body mass against flipper length.\nWe can see from Figure 1 that there does appear to be, overall, a linear relationship between weight and flipper size.",
+    "crumbs": [
+      "Early Section",
+      "Linear Regression"
+    ]
+  },
+  {
+    "objectID": "causal-linear-regression.html#the-scientific-model",
+    "href": "causal-linear-regression.html#the-scientific-model",
+    "title": "Linear Regression",
+    "section": "The Scientific Model",
+    "text": "The Scientific Model\nWe can propose a scientific model for this association as in Equation 1, where \\(F\\) represents flipper size, as a representative measure of overall penguin size, and \\(W\\) represents the weight of a penguin. Our argument for this kind of causal relationship might run as follows:\n\nPenguins with big flippers tend to be large and, because they also tend to have more penguin in them, they will necessarily weigh more.\n\n\\[ F \\rightarrow W  \\tag{1}\\]\n\n\n\n\n\n\nNote\n\n\n\nWe don’t have the arrow pointing the other way, as it doesn’t seem as reasonable to argue that increasing the weight of a penguin necessarily increases that penguin’s flipper length.\n\n\n\n\n\n\n\n\nWarning\n\n\n\nOur scientific model considers the directionality of influence: it is a causal model. But linear regression will only tell us about the association between the variables. We must use this causal model to interpret the result.\n\n\nWe can formally say that penguin weight is some function of flipper size, and represent that with Equation 2:\n\\[ W = f(F)  \\tag{2}\\]\n\nIncorporating real world variation\nLooking at Figure 1 we can see that the relationship between penguin body mass and flipper size isn’t exactly a straight line. This reflects real-world variation in the dataset that is the result of other influences.\n\n\n\n\n\n\nNote\n\n\n\nWe don’t know, or even need to know, what those influences are - though candidate might include\n\nmeasurement error\nthe influence of recent fish catch successes on a penguin’s stomach contents\nthe day on which the penguin was measured\npenguin sex\nthe condition/illness of the penguin\n\nor any of several other factors.\n\n\nThese other influences can be treated as unobserved influences, which we represent as a single causal influence on \\(W\\) in Equation 3 by the \\(\\enclose{circle}{U}\\) symbol (the circle means that the variable is unobserved, or unmeasured).\n\\[ F \\rightarrow W \\leftarrow \\enclose{circle}{U}  \\tag{3}\\]\nSo we now say that penguin weight is some function of flipper size and the unobserved variable \\(U\\), and represent that with Equation 4:\n\\[ W = f(F,U)  \\tag{4}\\]",
+    "crumbs": [
+      "Early Section",
+      "Linear Regression"
+    ]
+  },
+  {
+    "objectID": "causal-linear-regression.html#the-statistical-model",
+    "href": "causal-linear-regression.html#the-statistical-model",
+    "title": "Linear Regression",
+    "section": "The Statistical Model",
+    "text": "The Statistical Model\nWe have a scientific model of how we believe the system relating flipper size to penguin weight works. But we must now construct a statistical model which will allow us to define and estimate the associations between measured variables.\n\nSimulating the system\n\n\n\n\n\n\nWarning\n\n\n\nThere are many good reasons why we would want to simulate our system before analysing the data. In this case, with such a simple association, it might seem like overkill: there’s an “obvious” linear relationship, so let’s go straight to a linear fit. But here we want to focus on the process as much as anything else, so we will work through each step as though we were dealing with a much more complex model.\nIn many systems the underlying complexity can build up quite rapidly, and it may not be so obvious that our model (e.g. as defined in Equation 3 and Equation 4) captures its behaviour. Following this process will protect against some of the negative effects of that.\nSimulating the system as we understand it, where we are in control of the parameters, allows us to gauge the effectiveness of our approach, and the precision and accuracy of our fit when estimating the effect of, say, flipper size on penguin weight.\n\n\n\n\n\n\n\n\nImportant\n\n\n\nA big advantage of simulating the system is that it can give us confidence, and avoid giving us false confidence.\nIf we can’t recover the actual values in our simulated system - using our data analysis approach - then we shouldn’t have much confidence that it will do a better job on the real data. But if we can reliably recover those values from the simulated system, then so long as our model is a good representation of the real world we might draw some confidence from this.\n\n\nWe’re going to turn Equation 3 into a mathematical equation that has parameters we can estimate, so that we can try to determine the association between flipper size and weight. We represent the result in Equation 5.\n\\[ W = \\beta F + U  \\tag{5}\\]\nThis equation says that the weight of a penguin \\(W\\) can be expressed as some proportion (\\(\\beta\\)) of its flipper size \\(F\\), plus some unobserved value \\(U\\) representing variational noise in the data.\n\n\n\n\n\n\nTip\n\n\n\nOur ultimate goal is to estimate \\(\\beta\\), the association between flipper size \\(F\\) and weight \\(W\\).\n\n\n\n\n\n\n\n\nNote\n\n\n\nYou will have noticed that, although we measure \\(W\\) and \\(F\\) directly, we have not measured \\(U\\) and, indeed, we cannot measure \\(U\\). The value of \\(U\\) changes from individual to individual, and we must make assumptions about it, in order to include it in our simulation.\nWe assume that the value of \\(U\\) for an individual is drawn from a distribution of possible values. Here we’re going to assume that this is:\n\na Normal (Gaussian) distribution\nwhich has mean of zero (0)\na standard deviation of some size yet to be determined\n\nThis represents random “noise” in the data that is centred around zero.\n\n\nWe can write our simulation in R. Here, sim_weight() is a function we can call to generate simulated weight data. We need to pass it three arguments:\n\nF: a vector of flipper sizes\nbeta: the parameter in Equation 5 determining the relationship between flipper size and penguin weight\nsd: the standard deviation of the Gaussian distribution representing \\(U\\)\n\n\nsim_weight &lt;- function(F, beta, sd) {\n  U &lt;- rnorm(length(F), 0, sd)\n  W &lt;- beta * F + U\n  return(W)\n}\n\nTo use sim_weight() we need to give it a vector of flipper size values. We’ll generate these uniformly-distributed values in the range we saw in Figure 1, using R’s runif() function, and plot the result below.\n\n\n\n\n\n\nNote\n\n\n\nAt this point, we do not know the real values of beta/\\(\\beta\\) or sd. We’re just going to use some values that seem reasonable\n\n\n\nF &lt;- runif(200, min=170, max=230)\nW &lt;- sim_weight(F, beta=25, sd=250)\n\ndata &lt;- data.frame(body_mass_g=W, flipper_length_mm=F)\n\nggplot(data, aes(x=flipper_length_mm, y=body_mass_g)) +\n  geom_point(shape=21, colour=\"darkolivegreen3\", stroke=2) +\n  xlab(\"flipper length (mm)\") + ylab(\"body mass(g)\") +\n  theme_bw()\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nTip\n\n\n\nThe first thing we want to do is check that the values are in the kind of range we expect, that they are realistic. Here that means we want to confirm that no individuals in the simulations are incredibly light or heavy, or have extremely long or short flipper lengths.\nIf we do notice major differences between our model and the data, then we can adjust our model, or our parameter choices accordingly.\n\n\n\n\nDescribing the model\nWe need to describe our simulation model in terms of conventional statistical notation. We need to list our variables, defining each variable as a deterministic or distributional function of the other variables.\n\\[\n\\begin{eqnarray}\n&W_i = \\beta F_i + U_i \\\\\n&U_i \\sim \\textrm{Normal}(0, \\sigma) \\\\\n&F_i \\sim \\textrm{Uniform}(170, 230)\n\\end{eqnarray}\n\\tag{6}\\]\nIn Equation 6, we use the subscript term \\(_i\\) to indicate the value for an individual observation with index \\(i\\). The first penguin has index 1, the second has index 2, and so on. Each individual penguin has its own measurement of weight \\(W_i\\) and flipper size \\(F_i\\), and is subject to an individual influence from unobserved causes \\(U_i\\).\nThe first line of the definition \\(W_i = \\beta F_i + U_i\\) is a restatement of Equation 5, the equation for expected weight (given flipper size), being specific about it applying to an individual penguin. The Gaussian noise \\(U_i\\) is sampled from a Gaussian (Normal) distribution centred on zero, with some (as yet unknown) variance, and where the penguin’s flipper size is drawn from a uniform distribution of lengths between 170 and 230 mm.",
+    "crumbs": [
+      "Early Section",
+      "Linear Regression"
+    ]
   },
   {
     "objectID": "late-section.html",
     "href": "late-section.html",
     "title": "Late Section",
     "section": "",
-    "text": "This .qmd file introduces a Part of the Quarto book. We use the {#sec-REFERENCE} option to make it cross-referenceable elsewhere in the text, and the {.unnumbered} option to avoid giving it a section number."
+    "text": "This .qmd file introduces a Part of the Quarto book. We use the {#sec-REFERENCE} option to make it cross-referenceable elsewhere in the text, and the {.unnumbered} option to avoid giving it a section number.",
+    "crumbs": [
+      "Late Section"
+    ]
   },
   {
-    "objectID": "webr-example.html#introduction",
-    "href": "webr-example.html#introduction",
-    "title": "3  R Playground",
-    "section": "3.1 Introduction",
-    "text": "3.1 Introduction\nThis page provides a WebR cell for you to use as a playground to experiment with some example datasets. You can use this page to explore data management and visualisation in R."
+    "objectID": "webr-example.html",
+    "href": "webr-example.html",
+    "title": "2  R Playground",
+    "section": "",
+    "text": "2.1 Introduction\nThis page provides a WebR cell for you to use as a playground to experiment with some example datasets. You can use this page to explore data management and visualisation in R.",
+    "crumbs": [
+      "Late Section",
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>`R` Playground</span>"
+    ]
   },
   {
     "objectID": "webr-example.html#playground",
     "href": "webr-example.html#playground",
-    "title": "3  R Playground",
-    "section": "3.2 Playground",
-    "text": "3.2 Playground\n\nPlease enable JavaScript to experience the dynamic code cell content on this page."
+    "title": "2  R Playground",
+    "section": "2.2 Playground",
+    "text": "2.2 Playground\n\nPlease enable JavaScript to experience the dynamic code cell content on this page.",
+    "crumbs": [
+      "Late Section",
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>`R` Playground</span>"
+    ]
   },
   {
     "objectID": "webr-example.html#things-you-can-do",
     "href": "webr-example.html#things-you-can-do",
-    "title": "3  R Playground",
-    "section": "3.3 Things you can do",
-    "text": "3.3 Things you can do\nThis WebR instance has three packages installed:\n\nggplot2\nGGally\ntidyverse\npalmerpenguins\n\nOpen the callout boxes below to see some examples you can try in the code cell above.\n\n\n\n\n\n\nInvestigate Palmer’s Penguins\n\n\n\n\n\nThe penguins dataset contains data about three different species of penguins. Take a look at the format of the dataset:\nglimpse(penguins)\nYou’ll see there are eight variables, including species, weight, sex, etc. - some of these variables are categorical (i.e. a category, like species), and others are continuous (i.e. numerical). You can see a visual overview of how the data is related using the plot() function:\nplot(penguins)\nWe can visualise the number of penguins of each species in a bar chart:\nfig &lt;- ggplot(penguins, aes(species, fill=species)) +\n         geom_bar()\nfig\nAnd break this down in a facet plot, by sex:\nfig &lt;- ggplot(penguins, aes(species, fill=species)) +\n         geom_bar() +\n         facet_wrap(~sex)\nfig\nWe can make a box and whisker plot of penguin body mass by species:\nfig &lt;- ggplot(penguins, aes(x=species, y=body_mass_g, fill=species)) +\n         geom_boxplot()\nfig\nAnd plot the body mass for each sex side-by-side\nfig &lt;- ggplot(penguins, aes(x=species, y=body_mass_g, fill=sex)) +\n         geom_boxplot()\nfig\nWe can investigate correlations, such as between body mass and flipper length:\nfig &lt;- ggplot(penguins, aes(x=body_mass_g, y=flipper_length_mm)) +\n         geom_point()\nfig\nWe can colour datapoints by species:\nfig &lt;- ggplot(penguins, aes(x=body_mass_g, y=flipper_length_mm, colour=species)) +\n         geom_point()\nfig\nAnd fit a linear regression to each species separately:\nfig &lt;- ggplot(penguins, aes(x=body_mass_g, y=flipper_length_mm, colour=species)) +\n         geom_point() +\n         geom_smooth(method=\"lm\")\nfig\n\n\n\n\n\n\n\n\n\nNote\n\n\n\nR comes with a number of example datasets you can practice with, including:\n\nmtcars: fuel consumption and other statistic for 32 automobiles\nTitanic: information on the fate of passengers on the fatal maiden voyage of the ocean liner Titanic\n\nYou can see a full list by running the command\nlibrary(help = \"datasets\")"
+    "title": "2  R Playground",
+    "section": "2.3 Things you can do",
+    "text": "2.3 Things you can do\nThis WebR instance has three packages installed:\n\nggplot2\ntidyverse\npalmerpenguins\n\nOpen the callout boxes below to see some examples you can try in the code cell above.\n\n\n\n\n\n\nInvestigate Palmer’s Penguins\n\n\n\n\n\nThe penguins dataset contains data about three different species of penguins. Take a look at the format of the dataset:\nglimpse(penguins)\nYou’ll see there are eight variables, including species, weight, sex, etc. - some of these variables are categorical (i.e. a category, like species), and others are continuous (i.e. numerical). You can see a visual overview of how the data is related using the plot() function:\nplot(penguins)\nWe can visualise the number of penguins of each species in a bar chart:\nfig &lt;- ggplot(penguins, aes(species, fill=species)) +\n         geom_bar()\nfig\nAnd break this down in a facet plot, by sex:\nfig &lt;- ggplot(penguins, aes(species, fill=species)) +\n         geom_bar() +\n         facet_wrap(~sex)\nfig\nWe can make a box and whisker plot of penguin body mass by species:\nfig &lt;- ggplot(penguins, aes(x=species, y=body_mass_g, fill=species)) +\n         geom_boxplot()\nfig\nAnd plot the body mass for each sex side-by-side\nfig &lt;- ggplot(penguins, aes(x=species, y=body_mass_g, fill=sex)) +\n         geom_boxplot()\nfig\nWe can investigate correlations, such as between body mass and flipper length:\nfig &lt;- ggplot(penguins, aes(x=body_mass_g, y=flipper_length_mm)) +\n         geom_point()\nfig\nWe can colour datapoints by species:\nfig &lt;- ggplot(penguins, aes(x=body_mass_g, y=flipper_length_mm, colour=species)) +\n         geom_point()\nfig\nAnd fit a linear regression to each species separately:\nfig &lt;- ggplot(penguins, aes(x=body_mass_g, y=flipper_length_mm, colour=species)) +\n         geom_point() +\n         geom_smooth(method=\"lm\")\nfig\n\n\n\n\n\n\n\n\n\nNote\n\n\n\nR comes with a number of example datasets you can practice with, including:\n\nmtcars: fuel consumption and other statistic for 32 automobiles\nTitanic: information on the fate of passengers on the fatal maiden voyage of the ocean liner Titanic\n\nYou can see a full list by running the command\nlibrary(help = \"datasets\")",
+    "crumbs": [
+      "Late Section",
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>`R` Playground</span>"
+    ]
   },
   {
     "objectID": "references.html",
     "href": "references.html",
     "title": "References",
     "section": "",
-    "text": "Knuth, Donald E. 1984. “Literate Programming.” Comput.\nJ. 27 (2): 97–111. https://doi.org/10.1093/comjnl/27.2.97."
+    "text": "Knuth, Donald E. 1984. “Literate Programming.” Comput.\nJ. 27 (2): 97–111. https://doi.org/10.1093/comjnl/27.2.97.",
+    "crumbs": [
+      "References"
+    ]
   }
 ]

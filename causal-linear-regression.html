@@ -8,7 +8,7 @@
 
 <meta name="author" content="Leighton Pritchard">
 
-<title>A Little Book of Data Analysis - 1&nbsp; Introduction</title>
+<title>A Little Book of Data Analysis - Linear Regression</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -55,27 +55,7 @@ div.sourceCode
 @media screen {
 pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
-/* CSS for citations */
-div.csl-bib-body { }
-div.csl-entry {
-  clear: both;
-  margin-bottom: 0em;
-}
-.hanging-indent div.csl-entry {
-  margin-left:2em;
-  text-indent:-2em;
-}
-div.csl-left-margin {
-  min-width:2em;
-  float:left;
-}
-div.csl-right-inline {
-  margin-left:2em;
-  padding-left:1em;
-}
-div.csl-indent {
-  margin-left: 2em;
-}</style>
+</style>
 
 
 <script src="site_libs/quarto-nav/quarto-nav.js"></script>
@@ -85,8 +65,8 @@ div.csl-indent {
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./early-section.html" rel="next">
-<link href="./index.html" rel="prev">
+<link href="./late-section.html" rel="next">
+<link href="./early-section.html" rel="prev">
 <link href="./icon_32.png" rel="icon" type="image/png">
 <script src="site_libs/quarto-html/quarto.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
@@ -125,6 +105,35 @@ div.csl-indent {
   }
 }</script>
 
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 </head>
 
@@ -137,7 +146,7 @@ div.csl-indent {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./intro.html"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introduction</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./early-section.html">Early Section</a></li><li class="breadcrumb-item"><a href="./causal-linear-regression.html">Linear Regression</a></li></ol></nav>
         <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
@@ -178,7 +187,7 @@ div.csl-indent {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./intro.html" class="sidebar-item-text sidebar-link active">
+  <a href="./intro.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introduction</span></span></a>
   </div>
 </li>
@@ -193,7 +202,7 @@ div.csl-indent {
       <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./causal-linear-regression.html" class="sidebar-item-text sidebar-link">
+  <a href="./causal-linear-regression.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">Linear Regression</span></a>
   </div>
 </li>
@@ -228,14 +237,29 @@ div.csl-indent {
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#the-scientific-question" id="toc-the-scientific-question" class="nav-link active" data-scroll-target="#the-scientific-question">The Scientific Question</a></li>
+  <li><a href="#the-scientific-model" id="toc-the-scientific-model" class="nav-link" data-scroll-target="#the-scientific-model">The Scientific Model</a>
+  <ul class="collapse">
+  <li><a href="#incorporating-real-world-variation" id="toc-incorporating-real-world-variation" class="nav-link" data-scroll-target="#incorporating-real-world-variation">Incorporating real world variation</a></li>
+  </ul></li>
+  <li><a href="#the-statistical-model" id="toc-the-statistical-model" class="nav-link" data-scroll-target="#the-statistical-model">The Statistical Model</a>
+  <ul class="collapse">
+  <li><a href="#simulating-the-system" id="toc-simulating-the-system" class="nav-link" data-scroll-target="#simulating-the-system">Simulating the system</a></li>
+  <li><a href="#describing-the-model" id="toc-describing-the-model" class="nav-link" data-scroll-target="#describing-the-model">Describing the model</a></li>
+  </ul></li>
+  </ul>
+<div class="toc-actions"><ul><li><a href="https://github.com/sipbs-compbiol/little-data-analysis-book/edit/main/causal-linear-regression.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/sipbs-compbiol/little-data-analysis-book/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default">
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./early-section.html">Early Section</a></li><li class="breadcrumb-item"><a href="./causal-linear-regression.html">Linear Regression</a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introduction</span></h1>
+<h1 class="title">Linear Regression</h1>
 </div>
 
 
@@ -252,27 +276,241 @@ div.csl-indent {
 </header>
 
 
-<p>The Introduction page is intended as a short introduction to the book.</p>
-<p>Like most Quarto books, this is a book created from markdown and executable code.</p>
-<p>This kind of book is an example of literate programming - the intertwining of nicely-formatted text and images, and executable code. For example, the <code>R</code> code cell below executes and produces output when the book is compiled:</p>
+<p>In this chapter, we will consider the relationship between size and weight, for penguins in the <code>palmerpenguins</code> dataset. There are other variables in the dataset that could have an association with penguin weight, but we will be focusing on the association with a measure of penguin size. We will try to describe this relationship using linear regression in <code>R</code>.</p>
+<section id="the-scientific-question" class="level2">
+<h2 class="anchored" data-anchor-id="the-scientific-question">The Scientific Question</h2>
+<p>We can see a relationship between size and weight for penguins in the <code>palmerpenguins</code> dataset by plotting their body mass (in g) against flipper length (in mm). Here, we are using flipper length as a representative measure for overall penguin size.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span> <span class="sc">+</span> <span class="dv">1</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] 2</code></pre>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(penguins, <span class="fu">aes</span>(<span class="at">x=</span>flipper_length_mm, <span class="at">y=</span>body_mass_g)) <span class="sc">+</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">shape=</span><span class="dv">21</span>, <span class="at">colour=</span><span class="st">"darkolivegreen3"</span>, <span class="at">stroke=</span><span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">"flipper length (mm)"</span>) <span class="sc">+</span> <span class="fu">ylab</span>(<span class="st">"body mass(g)"</span>) <span class="sc">+</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div id="fig-weight-vs-flipper" class="quarto-figure quarto-figure-center quarto-float anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-weight-vs-flipper-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="causal-linear-regression_files/figure-html/fig-weight-vs-flipper-1.png" class="img-fluid figure-img" width="672">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-weight-vs-flipper-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;1: A plot of penguin body mass against flipper length.
+</figcaption>
+</figure>
 </div>
 </div>
-<p>But the <code>R</code> code cell below does not:</p>
+</div>
+<p>We can see from <a href="#fig-weight-vs-flipper" class="quarto-xref">Figure&nbsp;<span>1</span></a> that there does appear to be, overall, a linear relationship between weight and flipper size.</p>
+</section>
+<section id="the-scientific-model" class="level2">
+<h2 class="anchored" data-anchor-id="the-scientific-model">The Scientific Model</h2>
+<p>We can propose a scientific model for this association as in <a href="#eq-flipper-weight" class="quarto-xref">Equation&nbsp;<span>1</span></a>, where <span class="math inline">\(F\)</span> represents flipper size, as a representative measure of overall penguin size, and <span class="math inline">\(W\)</span> represents the weight of a penguin. Our argument for this kind of <em>causal relationship</em> might run as follows:</p>
+<blockquote class="blockquote">
+<p>Penguins with big flippers tend to be large and, because they also tend to have more penguin in them, they will necessarily weigh more.</p>
+</blockquote>
+<p><span id="eq-flipper-weight"><span class="math display">\[ F \rightarrow W  \tag{1}\]</span></span></p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>We don’t have the arrow pointing the other way, as it doesn’t seem as reasonable to argue that increasing the weight of a penguin necessarily increases that penguin’s flipper length.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Warning
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Our scientific model considers the directionality of influence: it is a <em>causal</em> model. But linear regression will only tell us about the <em>association</em> between the variables. We must use this <em>causal model</em> to interpret the result.</p>
+</div>
+</div>
+<p>We can formally say that penguin weight is some <em>function</em> of flipper size, and represent that with <a href="#eq-flipper-weight-function" class="quarto-xref">Equation&nbsp;<span>2</span></a>:</p>
+<p><span id="eq-flipper-weight-function"><span class="math display">\[ W = f(F)  \tag{2}\]</span></span></p>
+<section id="incorporating-real-world-variation" class="level3">
+<h3 class="anchored" data-anchor-id="incorporating-real-world-variation">Incorporating real world variation</h3>
+<p>Looking at <a href="#fig-weight-vs-flipper" class="quarto-xref">Figure&nbsp;<span>1</span></a> we can see that the relationship between penguin body mass and flipper size isn’t exactly a straight line. This reflects real-world variation in the dataset that is the result of other influences.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>We don’t know, or even need to know, what those influences are - though candidate might include</p>
+<ul>
+<li>measurement error</li>
+<li>the influence of recent fish catch successes on a penguin’s stomach contents</li>
+<li>the day on which the penguin was measured</li>
+<li>penguin sex</li>
+<li>the condition/illness of the penguin</li>
+</ul>
+<p>or any of several other factors.</p>
+</div>
+</div>
+<p>These other influences can be treated as unobserved influences, which we represent as a single causal influence on <span class="math inline">\(W\)</span> in <a href="#eq-flipper-weight-unknown" class="quarto-xref">Equation&nbsp;<span>3</span></a> by the <span class="math inline">\(\enclose{circle}{U}\)</span> symbol (the circle means that the variable is unobserved, or unmeasured).</p>
+<p><span id="eq-flipper-weight-unknown"><span class="math display">\[ F \rightarrow W \leftarrow \enclose{circle}{U}  \tag{3}\]</span></span></p>
+<p>So we now say that penguin weight is some <em>function</em> of flipper size and the unobserved variable <span class="math inline">\(U\)</span>, and represent that with <a href="#eq-flipper-weight-unknown-function" class="quarto-xref">Equation&nbsp;<span>4</span></a>:</p>
+<p><span id="eq-flipper-weight-unknown-function"><span class="math display">\[ W = f(F,U)  \tag{4}\]</span></span></p>
+</section>
+</section>
+<section id="the-statistical-model" class="level2">
+<h2 class="anchored" data-anchor-id="the-statistical-model">The Statistical Model</h2>
+<p>We have a scientific model of how we believe the system relating flipper size to penguin weight works. But we must now construct a <em>statistical model</em> which will allow us to define and estimate the associations between measured variables.</p>
+<section id="simulating-the-system" class="level3">
+<h3 class="anchored" data-anchor-id="simulating-the-system">Simulating the system</h3>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Warning
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>There are many good reasons why we would want to simulate our system before analysing the data. In this case, with such a simple association, it might seem like overkill: there’s an “obvious” linear relationship, so let’s go straight to a linear fit. But here we want to focus on the process as much as anything else, so we will work through each step as though we were dealing with a much more complex model.</p>
+<p>In many systems the underlying complexity can build up quite rapidly, and it may not be so obvious that our model (e.g.&nbsp;as defined in <a href="#eq-flipper-weight-unknown" class="quarto-xref">Equation&nbsp;<span>3</span></a> and <a href="#eq-flipper-weight-unknown-function" class="quarto-xref">Equation&nbsp;<span>4</span></a>) captures its behaviour. Following this process will protect against some of the negative effects of that.</p>
+<p>Simulating the system as we understand it, where we are in control of the parameters, allows us to gauge the effectiveness of our approach, and the precision and accuracy of our fit when estimating the effect of, say, flipper size on penguin weight.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Important
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>A big advantage of simulating the system is that it can give us confidence, and <em>avoid giving us false confidence</em>.</p>
+<p>If we can’t recover the actual values in our simulated system - using our data analysis approach - then we shouldn’t have much confidence that it will do a better job on the real data. But if we can reliably recover those values from the simulated system, then <em>so long as our model is a good representation of the real world</em> we might draw some confidence from this.</p>
+</div>
+</div>
+<p>We’re going to turn <a href="#eq-flipper-weight-unknown" class="quarto-xref">Equation&nbsp;<span>3</span></a> into a mathematical equation that has <em>parameters</em> we can estimate, so that we can try to determine the association between flipper size and weight. We represent the result in <a href="#eq-flipper-weight-regression" class="quarto-xref">Equation&nbsp;<span>5</span></a>.</p>
+<p><span id="eq-flipper-weight-regression"><span class="math display">\[ W = \beta F + U  \tag{5}\]</span></span></p>
+<p>This equation says that the weight of a penguin <span class="math inline">\(W\)</span> can be expressed as some proportion (<span class="math inline">\(\beta\)</span>) of its flipper size <span class="math inline">\(F\)</span>, plus some unobserved value <span class="math inline">\(U\)</span> representing variational noise in the data.</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Our ultimate goal is to estimate <span class="math inline">\(\beta\)</span>, the association between flipper size <span class="math inline">\(F\)</span> and weight <span class="math inline">\(W\)</span>.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>You will have noticed that, although we measure <span class="math inline">\(W\)</span> and <span class="math inline">\(F\)</span> directly, we have not measured <span class="math inline">\(U\)</span> and, indeed, we cannot measure <span class="math inline">\(U\)</span>. The value of <span class="math inline">\(U\)</span> changes from individual to individual, and we must make assumptions about it, in order to include it in our simulation.</p>
+<p>We assume that the value of <span class="math inline">\(U\)</span> for an individual is drawn from a distribution of possible values. Here we’re going to assume that this is:</p>
+<ul>
+<li>a Normal (Gaussian) distribution</li>
+<li>which has mean of zero (0)</li>
+<li>a standard deviation of some size yet to be determined</li>
+</ul>
+<p>This represents random “noise” in the data that is centred around zero.</p>
+</div>
+</div>
+<p>We can write our simulation in R. Here, <code>sim_weight()</code> is a function we can call to generate simulated weight data. We need to pass it three arguments:</p>
+<ul>
+<li><code>F</code>: a vector of flipper sizes</li>
+<li><code>beta</code>: the parameter in <a href="#eq-flipper-weight-regression" class="quarto-xref">Equation&nbsp;<span>5</span></a> determining the relationship between flipper size and penguin weight</li>
+<li><code>sd</code>: the standard deviation of the Gaussian distribution representing <span class="math inline">\(U\)</span></li>
+</ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(cars)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>sim_weight <span class="ot">&lt;-</span> <span class="cf">function</span>(F, beta, sd) {</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  U <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="fu">length</span>(F), <span class="dv">0</span>, sd)</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  W <span class="ot">&lt;-</span> beta <span class="sc">*</span> F <span class="sc">+</span> U</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(W)</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>See <span class="citation" data-cites="knuth84">Knuth (<a href="references.html#ref-knuth84" role="doc-biblioref">1984</a>)</span> for additional discussion of literate programming.</p>
+<p>To use <code>sim_weight()</code> we need to give it a vector of flipper size values. We’ll generate these uniformly-distributed values in the range we saw in <a href="#fig-weight-vs-flipper" class="quarto-xref">Figure&nbsp;<span>1</span></a>, using <code>R</code>’s <code>runif()</code> function, and plot the result below.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>At this point, we do not know the real values of <code>beta</code>/<span class="math inline">\(\beta\)</span> or <code>sd</code>. We’re just going to use some values that seem reasonable</p>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>F <span class="ot">&lt;-</span> <span class="fu">runif</span>(<span class="dv">200</span>, <span class="at">min=</span><span class="dv">170</span>, <span class="at">max=</span><span class="dv">230</span>)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>W <span class="ot">&lt;-</span> <span class="fu">sim_weight</span>(F, <span class="at">beta=</span><span class="dv">25</span>, <span class="at">sd=</span><span class="dv">250</span>)</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">body_mass_g=</span>W, <span class="at">flipper_length_mm=</span>F)</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(data, <span class="fu">aes</span>(<span class="at">x=</span>flipper_length_mm, <span class="at">y=</span>body_mass_g)) <span class="sc">+</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">shape=</span><span class="dv">21</span>, <span class="at">colour=</span><span class="st">"darkolivegreen3"</span>, <span class="at">stroke=</span><span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">"flipper length (mm)"</span>) <span class="sc">+</span> <span class="fu">ylab</span>(<span class="st">"body mass(g)"</span>) <span class="sc">+</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="causal-linear-regression_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The first thing we want to do is check that the values are in the kind of range we expect, that they are <em>realistic</em>. Here that means we want to confirm that no individuals in the simulations are incredibly light or heavy, or have extremely long or short flipper lengths.</p>
+<p>If we do notice major differences between our model and the data, then we can adjust our model, or our parameter choices accordingly.</p>
+</div>
+</div>
+</section>
+<section id="describing-the-model" class="level3">
+<h3 class="anchored" data-anchor-id="describing-the-model">Describing the model</h3>
+<p>We need to describe our simulation model in terms of conventional statistical notation. We need to list our variables, defining each variable as a deterministic or distributional function of the other variables.</p>
+<p><span id="eq-sim-definition"><span class="math display">\[
+\begin{eqnarray}
+&amp;W_i = \beta F_i + U_i \\
+&amp;U_i \sim \textrm{Normal}(0, \sigma) \\
+&amp;F_i \sim \textrm{Uniform}(170, 230)
+\end{eqnarray}
+\tag{6}\]</span></span></p>
+<p>In <a href="#eq-sim-definition" class="quarto-xref">Equation&nbsp;<span>6</span></a>, we use the subscript term <span class="math inline">\(_i\)</span> to indicate the value for an individual observation with <em>index</em> <span class="math inline">\(i\)</span>. The first penguin has index 1, the second has index 2, and so on. Each individual penguin has its own measurement of weight <span class="math inline">\(W_i\)</span> and flipper size <span class="math inline">\(F_i\)</span>, and is subject to an individual influence from unobserved causes <span class="math inline">\(U_i\)</span>.</p>
+<p>The first line of the definition <span class="math inline">\(W_i = \beta F_i + U_i\)</span> is a restatement of <a href="#eq-flipper-weight-regression" class="quarto-xref">Equation&nbsp;<span>5</span></a>, the equation for expected weight (given flipper size), being specific about it applying to an individual penguin. The Gaussian noise <span class="math inline">\(U_i\)</span> is sampled from a Gaussian (Normal) distribution centred on zero, with some (as yet unknown) variance, and where the penguin’s flipper size is drawn from a uniform distribution of lengths between 170 and 230 mm.</p>
 
 
-<div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list" style="display: none">
-<div id="ref-knuth84" class="csl-entry" role="listitem">
-Knuth, Donald E. 1984. <span>“Literate Programming.”</span> <em>Comput. J.</em> 27 (2): 97–111. <a href="https://doi.org/10.1093/comjnl/27.2.97">https://doi.org/10.1093/comjnl/27.2.97</a>.
-</div>
-</div>
+</section>
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
@@ -686,13 +924,13 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./index.html" class="pagination-link" aria-label="Preface to _A Little Book of Bioinformatics_">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Preface to <em>A Little Book of Bioinformatics</em></span>
+      <a href="./early-section.html" class="pagination-link" aria-label="Early Section">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Early Section</span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./early-section.html" class="pagination-link" aria-label="Early Section">
-        <span class="nav-page-text">Early Section</span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./late-section.html" class="pagination-link" aria-label="Late Section">
+        <span class="nav-page-text">Late Section</span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
@@ -704,7 +942,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </div>   
     <div class="nav-footer-center">
       &nbsp;
-    <div class="toc-actions"><ul><li><a href="https://github.com/sipbs-compbiol/little-data-analysis-book/edit/main/intro.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/sipbs-compbiol/little-data-analysis-book/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div>
+    <div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/sipbs-compbiol/little-data-analysis-book/edit/main/causal-linear-regression.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/sipbs-compbiol/little-data-analysis-book/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div>
     <div class="nav-footer-right">
 <p>This book was built with <a href="https://quarto.org/">Quarto</a>.</p>
 </div>
