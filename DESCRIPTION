@@ -12,6 +12,7 @@ Imports:
     ggplot2,
     flextable,
     kableExtra,
+    palmerpenguins,
 Suggests:
     knitr,
     sessioninfo
