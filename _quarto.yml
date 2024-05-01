@@ -35,7 +35,7 @@ book:
 
     - part: early-section.qmd
       chapters: 
-        - early-section-topic.qmd
+        - causal-linear-regression.qmd
     
     - part: late-section.qmd
       chapters: 

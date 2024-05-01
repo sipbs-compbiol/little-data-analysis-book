@@ -7,7 +7,7 @@ filters:
 
 # `R` Playground
 
-```{webr-r}
+```{r}
 #| context: setup
 
 library(ggplot2)
@@ -30,7 +30,6 @@ This page provides a `WebR` cell for you to use as a playground to experiment wi
 This `WebR` instance has three packages installed:
 
 - `ggplot2`
-- `GGally`
 - `tidyverse`
 - `palmerpenguins`
 
