@@ -1,11 +1,10 @@
-Package: PACKAGE_NAME
-Title: BOOK_TITLE
+Package: little-data-analysis-book
+Title: A Little Book of Data Analyusis
 Version: 0.1
 Authors@R: c(
-    person("FORENAME1", "SURNAME1", , "EMAIL.1@strath.ac.uk", role = c("aut", "cre")),
-    person("FORENAME2", "SURNAME2", , "EMAIL.2@strath.ac.uk", role = c("aut", "cre"))
+    person("Leighton", "Pritchard", , "leighton.pritchard@strath.ac.uk", role = c("aut", "cre")),
   )
-URL: https://github.com/sipbs-compbiol/sipbs-compbiol-book-template
+URL: https://github.com/sipbs-compbiol/little-data-analysis-book
 Depends: 
     R (>= 3.1.0)
 Imports:
