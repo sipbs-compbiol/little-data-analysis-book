@@ -158,7 +158,7 @@ If we do notice major differences between our model and the data, then we can ad
 
 ### Describing the model
 
-We need to describe our simulation model in terms of conventional statistical notation. We need to list our variables, defining each variable as a deterministic or distributional function of the other variables.
+We need to describe our simulation model in terms of conventional statistical notation. We list our variables, defining each variable as a deterministic or distributional function of the other variables.
 
 $$
 \begin{eqnarray}
@@ -172,4 +172,33 @@ In @eq-sim-definition, we use the subscript term $_i$ to indicate the value for 
 
 The first line of the definition $W_i = \beta F_i + U_i$ is a restatement of @eq-flipper-weight-regression, the equation for expected weight (given flipper size), being specific about it applying to an individual penguin. The Gaussian noise $U_i$ is sampled from a Gaussian (Normal) distribution centred on zero, with some (as yet unknown) variance, and where the penguin's flipper size is drawn from a uniform distribution of lengths between 170 and 230 mm.
 
+### Constructing the Estimator
 
+We want to _estimate_ how the average weight of a penguin changes with the length of the penguin's flipper. This is represented in @eq-flipper-weight-estimator
+
+$$ \textrm{E}(W_i|F_i) = \alpha + \beta F_i $$ {#eq-flipper-weight-estimator}
+
+Here, $\textrm{E}(W_i|F_i)$ represents the _expected_ (or _average_) weight of a penguin ($W_i$), conditional on its flipper size ($F_i$). The relationship between the two is described as the expression $\alpha + \beta F_i$ - describing a linear relationship where $\alpha$ is the _intercept_ and $\beta$ is the _slope_ of the line.
+
+::: { .callout-tip }
+The model in @eq-flipper-weight-estimator describes a relationship where an individual with a flipper size of zero should also have a weight of zero, which seems intiutively reasonable.
+
+We can use the relationships and implications defined in these models to look at violations of the model, which may be opportunities for improving the model and our understanding of the system.
+:::
+
+We're going to use a Bayesian approach to estimate values for $\alpha$, $\beta$, and $\sigma$ as described in the equation for the posterior distribution, @eq-posterior.
+
+$$ \textrm{Pr}(\alpha, \beta, \sigma|F_i,W_i) = \frac{\textrm{Pr}(W_i|F_i, \alpha, \beta, \sigma) \textrm{Pr}(\alpha, \beta, \sigma)}{Z} $$ {#eq-posterior}
+
+Here, $Z$ is a normalising constant that we're not going to consider in detail.
+
+The statistical model is then:
+
+$$
+\begin{eqnarray}
+W_i \sim \textrm{Normal}(\mu_i, \sigma)
+\mu_i = \alpha + \beta F_i
+\end{eqnarray}
+$$ {#eq-stat-model}
+
+which describes how $W_i$ varies in relation to $F_i$. @eq-stat-model describes how $W_i$ is drawn from a Normal distribution with standard deviation $\sigma$ and mean $\mu_i$, where $\mu_i$ is dependent on the value of $F_i$ through the relationship $\alpha + \beta F_i$.
