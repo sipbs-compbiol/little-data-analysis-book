@@ -250,6 +250,7 @@ window.Quarto = {
   <ul class="collapse">
   <li><a href="#simulating-the-system" id="toc-simulating-the-system" class="nav-link" data-scroll-target="#simulating-the-system">Simulating the system</a></li>
   <li><a href="#describing-the-model" id="toc-describing-the-model" class="nav-link" data-scroll-target="#describing-the-model">Describing the model</a></li>
+  <li><a href="#constructing-the-estimator" id="toc-constructing-the-estimator" class="nav-link" data-scroll-target="#constructing-the-estimator">Constructing the Estimator</a></li>
   </ul></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/sipbs-compbiol/little-data-analysis-book/edit/main/causal-linear-regression.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/sipbs-compbiol/little-data-analysis-book/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
@@ -497,7 +498,7 @@ Tip
 </section>
 <section id="describing-the-model" class="level3">
 <h3 class="anchored" data-anchor-id="describing-the-model">Describing the model</h3>
-<p>We need to describe our simulation model in terms of conventional statistical notation. We need to list our variables, defining each variable as a deterministic or distributional function of the other variables.</p>
+<p>We need to describe our simulation model in terms of conventional statistical notation. We list our variables, defining each variable as a deterministic or distributional function of the other variables.</p>
 <p><span id="eq-sim-definition"><span class="math display">\[
 \begin{eqnarray}
 &amp;W_i = \beta F_i + U_i \\
@@ -507,6 +508,37 @@ Tip
 \tag{6}\]</span></span></p>
 <p>In <a href="#eq-sim-definition" class="quarto-xref">Equation&nbsp;<span>6</span></a>, we use the subscript term <span class="math inline">\(_i\)</span> to indicate the value for an individual observation with <em>index</em> <span class="math inline">\(i\)</span>. The first penguin has index 1, the second has index 2, and so on. Each individual penguin has its own measurement of weight <span class="math inline">\(W_i\)</span> and flipper size <span class="math inline">\(F_i\)</span>, and is subject to an individual influence from unobserved causes <span class="math inline">\(U_i\)</span>.</p>
 <p>The first line of the definition <span class="math inline">\(W_i = \beta F_i + U_i\)</span> is a restatement of <a href="#eq-flipper-weight-regression" class="quarto-xref">Equation&nbsp;<span>5</span></a>, the equation for expected weight (given flipper size), being specific about it applying to an individual penguin. The Gaussian noise <span class="math inline">\(U_i\)</span> is sampled from a Gaussian (Normal) distribution centred on zero, with some (as yet unknown) variance, and where the penguin’s flipper size is drawn from a uniform distribution of lengths between 170 and 230 mm.</p>
+</section>
+<section id="constructing-the-estimator" class="level3">
+<h3 class="anchored" data-anchor-id="constructing-the-estimator">Constructing the Estimator</h3>
+<p>We want to <em>estimate</em> how the average weight of a penguin changes with the length of the penguin’s flipper. This is represented in <a href="#eq-flipper-weight-estimator" class="quarto-xref">Equation&nbsp;<span>7</span></a></p>
+<p><span id="eq-flipper-weight-estimator"><span class="math display">\[ \textrm{E}(W_i|F_i) = \alpha + \beta F_i  \tag{7}\]</span></span></p>
+<p>Here, <span class="math inline">\(\textrm{E}(W_i|F_i)\)</span> represents the <em>expected</em> (or <em>average</em>) weight of a penguin (<span class="math inline">\(W_i\)</span>), conditional on its flipper size (<span class="math inline">\(F_i\)</span>). The relationship between the two is described as the expression <span class="math inline">\(\alpha + \beta F_i\)</span> - describing a linear relationship where <span class="math inline">\(\alpha\)</span> is the <em>intercept</em> and <span class="math inline">\(\beta\)</span> is the <em>slope</em> of the line.</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The model in <a href="#eq-flipper-weight-estimator" class="quarto-xref">Equation&nbsp;<span>7</span></a> describes a relationship where an individual with a flipper size of zero should also have a weight of zero, which seems intiutively reasonable.</p>
+<p>We can use the relationships and implications defined in these models to look at violations of the model, which may be opportunities for improving the model and our understanding of the system.</p>
+</div>
+</div>
+<p>We’re going to use a Bayesian approach to estimate values for <span class="math inline">\(\alpha\)</span>, <span class="math inline">\(\beta\)</span>, and <span class="math inline">\(\sigma\)</span> as described in the equation for the posterior distribution, <a href="#eq-posterior" class="quarto-xref">Equation&nbsp;<span>8</span></a>.</p>
+<p><span id="eq-posterior"><span class="math display">\[ \textrm{Pr}(\alpha, \beta, \sigma|F_i,W_i) = \frac{\textrm{Pr}(W_i|F_i, \alpha, \beta, \sigma) \textrm{Pr}(\alpha, \beta, \sigma)}{Z}  \tag{8}\]</span></span></p>
+<p>Here, <span class="math inline">\(Z\)</span> is a normalising constant that we’re not going to consider in detail.</p>
+<p>The statistical model is then:</p>
+<p><span id="eq-stat-model"><span class="math display">\[
+\begin{eqnarray}
+W_i \sim \textrm{Normal}(\mu_i, \sigma)
+\mu_i = \alpha + \beta F_i
+\end{eqnarray}
+\tag{9}\]</span></span></p>
+<p>which describes how <span class="math inline">\(W_i\)</span> varies in relation to <span class="math inline">\(F_i\)</span>. <a href="#eq-stat-model" class="quarto-xref">Equation&nbsp;<span>9</span></a> describes how <span class="math inline">\(W_i\)</span> is drawn from a Normal distribution with standard deviation <span class="math inline">\(\sigma\)</span> and mean <span class="math inline">\(\mu_i\)</span>, where <span class="math inline">\(\mu_i\)</span> is dependent on the value of <span class="math inline">\(F_i\)</span> through the relationship <span class="math inline">\(\alpha + \beta F_i\)</span>.</p>
 
 
 </section>
