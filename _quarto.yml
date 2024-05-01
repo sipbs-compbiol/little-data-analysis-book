@@ -53,9 +53,10 @@ format:
     code-link: true
     
     author-meta: "Leighton Pritchard"
-  
-  pdf:
-    documentclass: scrreprt
+ 
+# Do not build PDF 
+#  pdf:
+#    documentclass: scrreprt
 
 # Freeze output before pushing modifications to the repository when publishing
 # Should not need changing
