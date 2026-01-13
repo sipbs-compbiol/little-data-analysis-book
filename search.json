@@ -4,9 +4,9 @@
     "href": "index.html",
     "title": "A Little Book of Data Analysis",
     "section": "",
-    "text": "Preface to A Little Book of Bioinformatics\nWelcome to A Little Book of Bioinformatics. This is an online book, under continual development, which I am building as and when topics come to mind or prominence.\nMy goal is that this online book will come to be a fairly transparent and honest reference for students in bioinformatics, and maybe for some researchers, too.\nI would be very grateful for feedback by email or through the GitHub repository Issues page",
+    "text": "Preface to _A Little Book of Data Analysis {.unnumbered}\nWelcome to A Little Book of Data Analysis This is an online book under continual development and which will be expanded as and when topics come to mind or prominence.\nMy goal is that this online book will come to be a fairly transparent and honest reference for students, and maybe for some more experienced researchers, too.\nI would be very grateful for feedback by email or through the GitHub repository Issues page",
     "crumbs": [
-      "Preface to _A Little Book of Bioinformatics_"
+      "Preface to _A Little Book of Data Analysis"
     ]
   },
   {
@@ -34,7 +34,7 @@
     "href": "causal-linear-regression.html",
     "title": "Linear Regression",
     "section": "",
-    "text": "The Scientific Question\nWe can see a relationship between size and weight for penguins in the palmerpenguins dataset by plotting their body mass (in g) against flipper length (in mm). Here, we are using flipper length as a representative measure for overall penguin size.\nggplot(penguins, aes(x=flipper_length_mm, y=body_mass_g)) +\n  geom_point(shape=21, colour=\"darkolivegreen3\", stroke=2) +\n  xlab(\"flipper length (mm)\") + ylab(\"body mass(g)\") +\n  theme_bw()\n\n\n\n\n\n\n\nFigure 1: A plot of penguin body mass against flipper length.\nWe can see from Figure 1 that there does appear to be, overall, a linear relationship between weight and flipper size.",
+    "text": "The Scientific Question\nIn this chapter, we will consider the relationship between size and weight, for penguins in the palmerpenguins dataset. There are other variables in the dataset that could have an association with penguin weight, but we will be focusing on the association with a measure of penguin size. We will try to describe this relationship using linear regression in R.\nWe can see a relationship between size and weight for penguins in the palmerpenguins dataset by plotting their body mass (in g) against flipper length (in mm). Here, we are using flipper length as a representative measure for overall penguin size.\nggplot(penguins, aes(x=flipper_length_mm, y=body_mass_g)) +\n  geom_point(shape=21, colour=\"darkolivegreen3\", stroke=2) +\n  xlab(\"flipper length (mm)\") + ylab(\"body mass(g)\") +\n  theme_bw()\n\n\n\n\n\n\n\nFigure 1: A plot of penguin body mass against flipper length.\nWe can see from Figure 1 that there does appear to be, overall, a linear relationship between weight and flipper size.",
     "crumbs": [
       "Early Section",
       "Linear Regression"
@@ -60,6 +60,49 @@
     "crumbs": [
       "Early Section",
       "Linear Regression"
+    ]
+  },
+  {
+    "objectID": "datavis.html",
+    "href": "datavis.html",
+    "title": "Data Visualisation",
+    "section": "",
+    "text": "This section of the book contains examples for data visualisation, and advice on good practice.",
+    "crumbs": [
+      "Data Visualisation"
+    ]
+  },
+  {
+    "objectID": "losing-marks.html",
+    "href": "losing-marks.html",
+    "title": "How To Lose Readers (Or Marks) Through Poor Data Visualisation",
+    "section": "",
+    "text": "Axis labelling\nIn SIPBS we don’t actually deduct marks for poor data visualisation - we don’t use “negative marking” at all, in fact - but it is possible not to earn marks because of deficiencies in data visualisation.\nOn this page, we will look at some (real, anonymised) examples of poor data visualisation, to demonstrate some common errors with the goal of helping you avoid them in your own work. The figures below commit the kinds of errors we see frequently in student theses (and occasionally papers), with commentary on the problem and how it might be improved.",
+    "crumbs": [
+      "Data Visualisation",
+      "How To Lose Readers (Or Marks) Through Poor Data Visualisation"
+    ]
+  },
+  {
+    "objectID": "losing-marks.html#axis-labelling",
+    "href": "losing-marks.html#axis-labelling",
+    "title": "How To Lose Readers (Or Marks) Through Poor Data Visualisation",
+    "section": "",
+    "text": "Make your axis labels confusing\n\n\n\n\n\n\nFigure 1: “Percentage of body-weight loss in mice over 72 hours following infection with two bacterial strains.”\n\n\n\nFigure 1 shows the percentage of weight loss relative to a baseline weight (here, weight measured at 0 hours post infection), but the y-axis label and orientation is poorly chosen.\n\n\n\n\n\n\nImportantUpward changes represent reductions in value\n\n\n\nIn general, in Western cultures at least, progress is generally interpreted from left-to-right, and lower values are considered to be, well, lower than higher values.\nIn Figure 1 the y-axis represents loss, so a change in the positive direction (upwards on the y-axis) means a reduction in weight. This, by itself, is counterintuitive and unhelpful to a reader, but is compounded because there is both “positive loss” (i.e. weight loss), and “negative loss” (i.e. weight gain).\nThis labelling means the reader needs to invert the intuitive direction of change and keep in mind that “negative loss” means gain.\n\n\n\n\n\n\n\n\nTipImproving the figure\n\n\n\nThe y-axis could have been presented as “% Weight Change” so that values above zero represent weight gain, and those below zero represent weight loss. This would be more intuitive and not require the reader to keep in mind that “negative loss” is the same as “gain.”\n\n\n\n\n\n\n\n\nFigure 2: “Bacterial burden in mouse peritoneal lavage fluid 24 hours after infection with two bacterial isolates”\n\n\n\nFigure 2 shows counts of bacteria in peritoneal lavage, 24h post infection. Bacterial counts are typically found as counts of colony-forming units (CFU). Because these counts are large numbers and bacterial growth is exponential, they are often presented as log(CFU). So, if \\(\\textrm{CFU} = 100000 = 10^5\\), \\(\\log_{10}{\\textrm{(CFU)}} = 5\\).\n\n\n\n\n\n\nImportantPresent log data incorrectly\n\n\n\nIn Figure 2 the numerical values on the y-axis are actual bacterial CFU counts, but the label indicates that they are \\(\\log_{10}\\textrm{(CFU)}\\) counts. If that were actually the case, the lowest count on the y-axis (100,000) would represent \\(10^{100000}\\), a much larger number than is practical in an experiment.\n\n\n\n\n\n\n\n\nTipImproving the figure\n\n\n\nThe y-axis values in Figure 2 are \\(10^5\\), \\(10^6\\), and \\(10^7\\), so the numerical values for an axis labelled as “\\(\\log_{10}\\textrm{(CFU)}\\)” should be 5, 6, and 7.\nAlternatively, the units on the axis could have been presented as CFU/mL, in which case the numerical values would have been correct.",
+    "crumbs": [
+      "Data Visualisation",
+      "How To Lose Readers (Or Marks) Through Poor Data Visualisation"
+    ]
+  },
+  {
+    "objectID": "losing-marks.html#statistical-results",
+    "href": "losing-marks.html#statistical-results",
+    "title": "How To Lose Readers (Or Marks) Through Poor Data Visualisation",
+    "section": "Statistical results",
+    "text": "Statistical results\n\nDon’t show the actual errors or data\n\n\n\n\n\n\nFigure 3: “Percentage body weight change in mice 24 hours after infection with two bacterial isolates. Each bar represents the mean ± SEM.”\n\n\n\nIn Figure 3, the error bars are only shown in one direction, although SEM is typically understood (and stated here explicitly) to extend either side of an estimate of the mean. This kind of figure is known as a “dynamite plot” and obscures the true variation of the data.\n\n\n\n\n\n\nImportantDynamite plots don’t show data variation accurately\n\n\n\nFigure 3 is an example of a “dynamite plot” where an error bar that should extend either side of the mean is only shown in one direction. The visualisation implies that error only occurs in one direction, and obscures or prevents comparison of the variation of data between groups.\n\n\n\n\n\n\n\n\nTipImproving the figure\n\n\n\nError bars should always be shown to extend in both directions around an estimate, where variation (or estimates of variation) do so.\n\n\n\n\n\n\n\n\nFigure 4: “Absolute macrophage counts in the peritoneal cavity 24 hours after infection.”\n\n\n\nFigure 4 shows count data (which can only have a value of zero or greater) of macrophages in the peritoneal cavity of mice, 24h post infection, for two bacterial isolates. The original legend did not indicate the meaning of the error bars, but the surrounding figures state that error bars represent SEM.\n\n\n\n\n\n\nImportantDynamite plots disguise statistical errors\n\n\n\nThe Figure 4 error bar for S. Typhimurium only extends vertically above the mean absolute macrophage count. This is a “dynamite plot” and undesirable because it is not truly representing the (here, presumed to be SEM) actual estimate of error. But in this case it is also disguising a much more significant statistical error.\nCareful inspection of the length of the Typhimurium error bar shows that it is larger than the estimated mean. This implies that the SEM error bar in the other direction should extend below the zero count. **This is equivalent to stating that (i) it is possible to have a negative count of macrophages, and (ii) that the uncertainty in the data is such that the mean count might be negative.\nObviously, the true count cannot be negative, but the statistical analysis implicitly allows/assumes it to be possible. This should strongly guide the researcher towards a different statistical analysis.\n\n\n\n\n\n\n\n\nTipImproving the figure\n\n\n\nIn this case, the usual solution of simply showing the error bar properly above and below the mean estimate will not solve all the issues, although following good practice this way might have helped the analysis.\nHere, the key is to note that the data is count data which specifically can only take counts of zero or greater. This kind of data can sometimes be understood to follow a Normal distribution without causing problems, but more generally is better represented by a different kind of statistical distribution.\nTo avoid the impossibility of the implications of a Normal distribution/SEM here, a boxplot or violin plot could have been used to visualise the data distribution.",
+    "crumbs": [
+      "Data Visualisation",
+      "How To Lose Readers (Or Marks) Through Poor Data Visualisation"
     ]
   },
   {
@@ -99,7 +142,7 @@
     "href": "webr-example.html#things-you-can-do",
     "title": "2  R Playground",
     "section": "2.3 Things you can do",
-    "text": "2.3 Things you can do\nThis WebR instance has three packages installed:\n\nggplot2\ntidyverse\npalmerpenguins\n\nOpen the callout boxes below to see some examples you can try in the code cell above.\n\n\n\n\n\n\nInvestigate Palmer’s Penguins\n\n\n\n\n\nThe penguins dataset contains data about three different species of penguins. Take a look at the format of the dataset:\nglimpse(penguins)\nYou’ll see there are eight variables, including species, weight, sex, etc. - some of these variables are categorical (i.e. a category, like species), and others are continuous (i.e. numerical). You can see a visual overview of how the data is related using the plot() function:\nplot(penguins)\nWe can visualise the number of penguins of each species in a bar chart:\nfig &lt;- ggplot(penguins, aes(species, fill=species)) +\n         geom_bar()\nfig\nAnd break this down in a facet plot, by sex:\nfig &lt;- ggplot(penguins, aes(species, fill=species)) +\n         geom_bar() +\n         facet_wrap(~sex)\nfig\nWe can make a box and whisker plot of penguin body mass by species:\nfig &lt;- ggplot(penguins, aes(x=species, y=body_mass_g, fill=species)) +\n         geom_boxplot()\nfig\nAnd plot the body mass for each sex side-by-side\nfig &lt;- ggplot(penguins, aes(x=species, y=body_mass_g, fill=sex)) +\n         geom_boxplot()\nfig\nWe can investigate correlations, such as between body mass and flipper length:\nfig &lt;- ggplot(penguins, aes(x=body_mass_g, y=flipper_length_mm)) +\n         geom_point()\nfig\nWe can colour datapoints by species:\nfig &lt;- ggplot(penguins, aes(x=body_mass_g, y=flipper_length_mm, colour=species)) +\n         geom_point()\nfig\nAnd fit a linear regression to each species separately:\nfig &lt;- ggplot(penguins, aes(x=body_mass_g, y=flipper_length_mm, colour=species)) +\n         geom_point() +\n         geom_smooth(method=\"lm\")\nfig\n\n\n\n\n\n\n\n\n\nNote\n\n\n\nR comes with a number of example datasets you can practice with, including:\n\nmtcars: fuel consumption and other statistic for 32 automobiles\nTitanic: information on the fate of passengers on the fatal maiden voyage of the ocean liner Titanic\n\nYou can see a full list by running the command\nlibrary(help = \"datasets\")",
+    "text": "2.3 Things you can do\nThis WebR instance has three packages installed:\n\nggplot2\ntidyverse\npalmerpenguins\n\nOpen the callout boxes below to see some examples you can try in the code cell above.\n\n\n\n\n\n\nTipInvestigate Palmer’s Penguins\n\n\n\n\n\nThe penguins dataset contains data about three different species of penguins. Take a look at the format of the dataset:\nglimpse(penguins)\nYou’ll see there are eight variables, including species, weight, sex, etc. - some of these variables are categorical (i.e. a category, like species), and others are continuous (i.e. numerical). You can see a visual overview of how the data is related using the plot() function:\nplot(penguins)\nWe can visualise the number of penguins of each species in a bar chart:\nfig &lt;- ggplot(penguins, aes(species, fill=species)) +\n         geom_bar()\nfig\nAnd break this down in a facet plot, by sex:\nfig &lt;- ggplot(penguins, aes(species, fill=species)) +\n         geom_bar() +\n         facet_wrap(~sex)\nfig\nWe can make a box and whisker plot of penguin body mass by species:\nfig &lt;- ggplot(penguins, aes(x=species, y=body_mass_g, fill=species)) +\n         geom_boxplot()\nfig\nAnd plot the body mass for each sex side-by-side\nfig &lt;- ggplot(penguins, aes(x=species, y=body_mass_g, fill=sex)) +\n         geom_boxplot()\nfig\nWe can investigate correlations, such as between body mass and flipper length:\nfig &lt;- ggplot(penguins, aes(x=body_mass_g, y=flipper_length_mm)) +\n         geom_point()\nfig\nWe can colour datapoints by species:\nfig &lt;- ggplot(penguins, aes(x=body_mass_g, y=flipper_length_mm, colour=species)) +\n         geom_point()\nfig\nAnd fit a linear regression to each species separately:\nfig &lt;- ggplot(penguins, aes(x=body_mass_g, y=flipper_length_mm, colour=species)) +\n         geom_point() +\n         geom_smooth(method=\"lm\")\nfig\n\n\n\n\n\n\n\n\n\nNote\n\n\n\nR comes with a number of example datasets you can practice with, including:\n\nmtcars: fuel consumption and other statistic for 32 automobiles\nTitanic: information on the fate of passengers on the fatal maiden voyage of the ocean liner Titanic\n\nYou can see a full list by running the command\nlibrary(help = \"datasets\")",
     "crumbs": [
       "Late Section",
       "<span class='chapter-number'>2</span>  <span class='chapter-title'>`R` Playground</span>"
