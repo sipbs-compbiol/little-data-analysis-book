@@ -1,7 +1,7 @@
-# Preface to _A Little Book of Bioinformatics_ {.unnumbered}
+# Preface to _A Little Book of Data Analysis {.unnumbered}
 
-Welcome to A Little Book of Bioinformatics. This is an online book, under continual development, which I am building as and when topics come to mind or prominence.
+Welcome to A Little Book of Data Analysis This is an online book under continual development and which will be expanded as and when topics come to mind or prominence.
 
-My goal is that this online book will come to be a fairly transparent and honest reference for students in bioinformatics, and maybe for some researchers, too.
+My goal is that this online book will come to be a fairly transparent and honest reference for students, and maybe for some more experienced researchers, too.
 
 I would be very grateful for feedback [by email]({{< var admin.email >}}) or through the [GitHub repository Issues page]({{< var github.issues >}})
