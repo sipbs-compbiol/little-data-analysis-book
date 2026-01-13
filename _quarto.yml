@@ -37,6 +37,10 @@ book:
       chapters: 
         - causal-linear-regression.qmd
     
+    - part: datavis.qmd
+      chapters: 
+        - losing-marks.qmd
+    
     - part: late-section.qmd
       chapters: 
         - webr-example.qmd
