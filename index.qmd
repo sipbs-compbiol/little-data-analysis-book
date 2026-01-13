@@ -1,4 +1,4 @@
-# Preface to _A Little Book of Data Analysis {.unnumbered}
+# Preface to _A Little Book of Data Analysis_ {.unnumbered}
 
 Welcome to A Little Book of Data Analysis This is an online book under continual development and which will be expanded as and when topics come to mind or prominence.
 
